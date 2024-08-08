@@ -307,27 +307,35 @@ public:
         cout << "Enter the session password: ";
         cin >> pass;
         cout << endl;
+
+        bool session_found = false;
         for (int i = 0; i < quiz_sessions.size(); i++) {
             if (session_id == quiz_sessions[i] && pass == quiz_session_passwords[i]) {
+                session_found = true;
                 break;
             }
-            else if (quiz_sessions.size() == i - 1) {
-                cout << "Wrong Password. please try again!" << endl;
-                return;
-            }
         }
+
+        if (!session_found) {
+            cout << "Wrong Password or session code. Please try again!" << endl;
+            return;
+        }
+
         for (int i = 0; i < OBJ.quizzes_taken.size(); i++) {
             if (session_id == OBJ.quizzes_taken[i]) {
-                cout << "This quiz has taken before!" << "\n" << endl;
+                cout << "This quiz has been taken before!" << "\n" << endl;
                 return;
             }
         }
+
+        // Load the questions
         string location = "Quizzes/" + session_id + "/" + session_id + "_ques.txt";
         ifstream file(location);
         if (!file.is_open()) {
             cerr << "Quiz session " << session_id + " not found!" << "\n" << endl;
             return;
         }
+
         string line;
         while (getline(file, line)) {
             if (line.find('Q') == 0) {
@@ -341,12 +349,14 @@ public:
             }
         }
         file.close();
+
         string location1 = "Quizzes/" + session_id + "/" + session_id + "_ans.txt";
         ifstream file1(location1);
         if (!file1.is_open()) {
             cerr << "Quiz session " << session_id + " not found!" << "\n" << endl;
             return;
         }
+
         string line1;
         while (getline(file1, line1)) {
             if (!line1.empty() && line1 != "---------------------") {
@@ -354,6 +364,7 @@ public:
             }
         }
         file1.close();
+
         cout << "Starting the quiz......." << "\n" << endl;
         string ans;
         cin.ignore();
@@ -371,6 +382,7 @@ public:
             cout << "\n" << endl;
             OBJ.user_answers.push_back(ans);
         }
+
         OBJ.quizzes_taken.push_back(session_id);
         cout << "\n" << "Quiz has finished, wait for grading........" << "\n" << endl;
 
@@ -381,20 +393,20 @@ public:
             }
         }
         cout << "\n" << "Your score is: " << score << " out of " << questions.size() << "\n" << endl;
+
         for (int i = 0; i < right_answers.size(); i++) {
             if (OBJ.user_answers[i] == right_answers[i]) {
-                cout << GREEN << "Your answer of Q" << i + 1 << ": "  << OBJ.user_answers[i] << RESET << endl;
-                cout << GREEN << "The correct answer of Q" << i + 1 << ": "  << right_answers[i] << RESET << endl;
+                cout << GREEN << "Your answer for Q" << i + 1 << ": "  << OBJ.user_answers[i] << RESET << endl;
+                cout << GREEN << "The correct answer for Q" << i + 1 << ": "  << right_answers[i] << RESET << endl;
                 cout << endl;
-            }
-            else {
-                cout << RED << "Your answer of Q" << i + 1 << ": "  << OBJ.user_answers[i] << RESET << endl;
-                cout << RED << "The correct answer of Q" << i + 1 << ": "  << right_answers[i] << RESET << endl;
+            } else {
+                cout << RED << "Your answer for Q" << i + 1 << ": "  << OBJ.user_answers[i] << RESET << endl;
+                cout << RED << "The correct answer for Q" << i + 1 << ": "  << right_answers[i] << RESET << endl;
                 cout << endl;
             }
         }
-
     }
+
 
 };
 
