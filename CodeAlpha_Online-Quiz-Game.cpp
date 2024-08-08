@@ -328,7 +328,6 @@ public:
             }
         }
 
-        // Load the questions
         string location = "Quizzes/" + session_id + "/" + session_id + "_ques.txt";
         ifstream file(location);
         if (!file.is_open()) {
