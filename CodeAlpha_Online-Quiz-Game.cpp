@@ -20,8 +20,8 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-*/
 
+*/
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -301,9 +301,21 @@ public:
 
     void loadQuestions(User &OBJ) {
         string session_id;
+        string pass;
         cout << "Enter the quiz session code: ";
         cin >> session_id;
+        cout << "Enter the session password: ";
+        cin >> pass;
         cout << endl;
+        for (int i = 0; i < quiz_sessions.size(); i++) {
+            if (session_id == quiz_sessions[i] && pass == quiz_session_passwords[i]) {
+                break;
+            }
+            else if (quiz_sessions.size() == i - 1) {
+                cout << "Wrong Password. please try again!" << endl;
+                return;
+            }
+        }
         for (int i = 0; i < OBJ.quizzes_taken.size(); i++) {
             if (session_id == OBJ.quizzes_taken[i]) {
                 cout << "This quiz has taken before!" << "\n" << endl;
