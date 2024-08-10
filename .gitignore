@@ -26,7 +26,11 @@
 *.a
 *.lib
 
+
 # Executables
 *.exe
 *.out
 *.app
+
+#cmake-Debug-inf0
+cmake-build-debug
